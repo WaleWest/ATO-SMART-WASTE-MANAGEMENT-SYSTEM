@@ -63,60 +63,58 @@ export default function PublicRegistration() {
       {/* Header */}
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
+          <div className="flex flex-col sm:flex-row justify-between items-center py-4 sm:py-0 sm:h-16">
+            <div className="flex items-center mb-2 sm:mb-0">
               <div className="flex-shrink-0 flex items-center">
                 <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
                   <Trash2 className="w-6 h-6 text-white" />
                 </div>
                 <div className="ml-3">
-                  <h1 className="text-xl font-semibold text-gray-900">ATO Smart Waste Management</h1>
-                  <p className="text-sm text-gray-500">Public Registration</p>
+                  <h1 className="text-lg sm:text-xl font-semibold text-gray-900">ATO Smart Waste Management</h1>
+                  <p className="text-xs sm:text-sm text-gray-500">Public Registration</p>
                 </div>
               </div>
             </div>
-            <Link href="/">
-              <Button variant="outline" size="sm">
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Admin Dashboard
-              </Button>
-            </Link>
+            <div className="flex items-center space-x-2">
+              <Phone className="w-4 h-4 text-gray-500" />
+              <span className="text-xs sm:text-sm text-gray-600">Need help? Call us: 1-800-ATO-WASTE</span>
+            </div>
           </div>
         </div>
       </header>
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* Hero Section */}
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-gray-900 mb-6">
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
             Join Smart Waste Management Today
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-6 sm:mb-8">
             Register for our intelligent waste collection service and never worry about overflowing bins again. 
             We monitor your waste levels and schedule collections automatically.
           </p>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 sm:mb-12">
             <div className="text-center">
-              <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                <Trash2 className="w-8 h-8 text-white" />
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                <Trash2 className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Smart Monitoring</h3>
-              <p className="text-gray-600">Automatic bin level monitoring with IoT sensors</p>
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">Smart Monitoring</h3>
+              <p className="text-sm sm:text-base text-gray-600">Automatic bin level monitoring with IoT sensors</p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
-                <Mail className="w-8 h-8 text-white" />
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                <Mail className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Email Alerts</h3>
-              <p className="text-gray-600">Get notified when collection is scheduled</p>
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">Email Alerts</h3>
+              <p className="text-sm sm:text-base text-gray-600">Get notified when collection is scheduled</p>
             </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
-                <MapPin className="w-8 h-8 text-white" />
+            <div className="text-center lg:col-span-1 sm:col-span-2 lg:col-span-1">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                <MapPin className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Convenient Service</h3>
-              <p className="text-gray-600">Hassle-free waste management for your location</p>
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">Convenient Service</h3>
+              <p className="text-sm sm:text-base text-gray-600">Hassle-free waste management for your location</p>
             </div>
           </div>
         </div>
@@ -124,15 +122,15 @@ export default function PublicRegistration() {
         {/* Registration Form */}
         <div className="max-w-2xl mx-auto">
           <Card className="shadow-lg">
-            <CardHeader className="bg-gradient-to-r from-primary to-secondary text-white">
-              <CardTitle className="text-center text-2xl">
+            <CardHeader className="bg-gradient-to-r from-primary to-secondary text-white p-4 sm:p-6">
+              <CardTitle className="text-center text-xl sm:text-2xl">
                 Register for Service
               </CardTitle>
-              <p className="text-center text-blue-100 mt-2">
+              <p className="text-center text-blue-100 mt-2 text-sm sm:text-base">
                 Complete the form below to get started with our smart waste management service
               </p>
             </CardHeader>
-            <CardContent className="p-8">
+            <CardContent className="p-4 sm:p-6 md:p-8">
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                   <FormField
@@ -140,11 +138,11 @@ export default function PublicRegistration() {
                     name="name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-lg">Full Name</FormLabel>
+                        <FormLabel className="text-sm sm:text-base md:text-lg">Full Name</FormLabel>
                         <FormControl>
                           <Input 
                             placeholder="Enter your full name" 
-                            className="h-12 text-lg"
+                            className="h-10 sm:h-12 text-sm sm:text-base md:text-lg"
                             {...field} 
                           />
                         </FormControl>
@@ -158,17 +156,17 @@ export default function PublicRegistration() {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-lg">Email Address</FormLabel>
+                        <FormLabel className="text-sm sm:text-base md:text-lg">Email Address</FormLabel>
                         <FormControl>
                           <Input 
                             type="email" 
                             placeholder="Enter your email address" 
-                            className="h-12 text-lg"
+                            className="h-10 sm:h-12 text-sm sm:text-base md:text-lg"
                             {...field} 
                           />
                         </FormControl>
                         <FormMessage />
-                        <p className="text-sm text-gray-500">
+                        <p className="text-xs sm:text-sm text-gray-500">
                           You'll receive confirmation and service updates at this email
                         </p>
                       </FormItem>
@@ -180,16 +178,16 @@ export default function PublicRegistration() {
                     name="address"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-lg">Service Address</FormLabel>
+                        <FormLabel className="text-sm sm:text-base md:text-lg">Service Address</FormLabel>
                         <FormControl>
                           <Textarea
                             placeholder="Enter the complete address where you need waste management service"
-                            className="min-h-[120px] text-lg"
+                            className="min-h-[80px] sm:min-h-[100px] md:min-h-[120px] text-sm sm:text-base md:text-lg"
                             {...field}
                           />
                         </FormControl>
                         <FormMessage />
-                        <p className="text-sm text-gray-500">
+                        <p className="text-xs sm:text-sm text-gray-500">
                           This is where your smart bin will be installed
                         </p>
                       </FormItem>
@@ -201,10 +199,10 @@ export default function PublicRegistration() {
                     name="binType"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-lg">Service Type</FormLabel>
+                        <FormLabel className="text-sm sm:text-base md:text-lg">Service Type</FormLabel>
                         <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
-                            <SelectTrigger className="h-12 text-lg">
+                            <SelectTrigger className="h-10 sm:h-12 text-sm sm:text-base md:text-lg">
                               <SelectValue placeholder="Select the service type that best fits your needs" />
                             </SelectTrigger>
                           </FormControl>
@@ -236,7 +234,7 @@ export default function PublicRegistration() {
 
                   <Button
                     type="submit"
-                    className="w-full h-14 text-lg font-semibold"
+                    className="w-full h-10 sm:h-12 md:h-14 text-sm sm:text-base md:text-lg font-semibold"
                     disabled={registrationMutation.isPending}
                   >
                     {registrationMutation.isPending ? "Processing Registration..." : "Register Now"}

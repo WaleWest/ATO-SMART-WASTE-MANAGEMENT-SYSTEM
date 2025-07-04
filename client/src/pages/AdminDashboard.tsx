@@ -128,86 +128,87 @@ export default function AdminDashboard() {
       {/* Header */}
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
+          <div className="flex flex-col sm:flex-row justify-between items-center py-3 sm:py-0 sm:h-16">
+            <div className="flex items-center mb-2 sm:mb-0">
               <div className="flex-shrink-0 flex items-center">
                 <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
                   <Trash2 className="w-6 h-6 text-white" />
                 </div>
                 <div className="ml-3">
-                  <h1 className="text-xl font-semibold text-gray-900">ATO Smart Waste Management</h1>
-                  <p className="text-sm text-gray-500">Admin Dashboard</p>
+                  <h1 className="text-lg sm:text-xl font-semibold text-gray-900">ATO Smart Waste Management</h1>
+                  <p className="text-xs sm:text-sm text-gray-500">Admin Dashboard</p>
                 </div>
               </div>
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 sm:space-x-4">
               <Link href="/public/register">
-                <Button variant="outline" size="sm">
-                  <UserPlus className="w-4 h-4 mr-2" />
-                  Public Registration
+                <Button variant="outline" size="sm" className="text-xs sm:text-sm">
+                  <UserPlus className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+                  <span className="hidden sm:inline">Public Registration</span>
+                  <span className="sm:hidden">Register</span>
                 </Button>
               </Link>
-              <Badge variant="secondary">Admin</Badge>
+              <Badge variant="secondary" className="text-xs">Admin</Badge>
             </div>
           </div>
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="bins">Bin Management</TabsTrigger>
-            <TabsTrigger value="register">Register User</TabsTrigger>
-            <TabsTrigger value="settings">Settings</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 gap-1 sm:gap-0">
+            <TabsTrigger value="overview" className="text-xs sm:text-sm">Overview</TabsTrigger>
+            <TabsTrigger value="bins" className="text-xs sm:text-sm">Bin Management</TabsTrigger>
+            <TabsTrigger value="register" className="text-xs sm:text-sm">Register User</TabsTrigger>
+            <TabsTrigger value="settings" className="text-xs sm:text-sm">Settings</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="overview" className="space-y-6">
+          <TabsContent value="overview" className="space-y-4 sm:space-y-6">
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
               <Card>
-                <CardContent className="p-6">
+                <CardContent className="p-4 sm:p-6">
                   <div className="flex items-center">
-                    <Trash2 className="w-8 h-8 text-primary" />
-                    <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-500">Total Bins</p>
-                      <p className="text-2xl font-bold text-gray-900">{totalBins}</p>
+                    <Trash2 className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
+                    <div className="ml-3 sm:ml-4">
+                      <p className="text-xs sm:text-sm font-medium text-gray-500">Total Bins</p>
+                      <p className="text-lg sm:text-2xl font-bold text-gray-900">{totalBins}</p>
                     </div>
                   </div>
                 </CardContent>
               </Card>
 
               <Card>
-                <CardContent className="p-6">
+                <CardContent className="p-4 sm:p-6">
                   <div className="flex items-center">
-                    <AlertTriangle className="w-8 h-8 text-orange-500" />
-                    <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-500">Alert Bins</p>
-                      <p className="text-2xl font-bold text-gray-900">{alertBins}</p>
+                    <AlertTriangle className="w-6 h-6 sm:w-8 sm:h-8 text-orange-500" />
+                    <div className="ml-3 sm:ml-4">
+                      <p className="text-xs sm:text-sm font-medium text-gray-500">Alert Bins</p>
+                      <p className="text-lg sm:text-2xl font-bold text-gray-900">{alertBins}</p>
                     </div>
                   </div>
                 </CardContent>
               </Card>
 
               <Card>
-                <CardContent className="p-6">
+                <CardContent className="p-4 sm:p-6">
                   <div className="flex items-center">
-                    <TrendingUp className="w-8 h-8 text-red-500" />
-                    <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-500">Critical Bins</p>
-                      <p className="text-2xl font-bold text-gray-900">{criticalBins}</p>
+                    <TrendingUp className="w-6 h-6 sm:w-8 sm:h-8 text-red-500" />
+                    <div className="ml-3 sm:ml-4">
+                      <p className="text-xs sm:text-sm font-medium text-gray-500">Critical Bins</p>
+                      <p className="text-lg sm:text-2xl font-bold text-gray-900">{criticalBins}</p>
                     </div>
                   </div>
                 </CardContent>
               </Card>
 
               <Card>
-                <CardContent className="p-6">
+                <CardContent className="p-4 sm:p-6">
                   <div className="flex items-center">
-                    <Users className="w-8 h-8 text-green-500" />
-                    <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-500">Active Users</p>
-                      <p className="text-2xl font-bold text-gray-900">{totalBins}</p>
+                    <Users className="w-6 h-6 sm:w-8 sm:h-8 text-green-500" />
+                    <div className="ml-3 sm:ml-4">
+                      <p className="text-xs sm:text-sm font-medium text-gray-500">Active Users</p>
+                      <p className="text-lg sm:text-2xl font-bold text-gray-900">{totalBins}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -225,13 +226,13 @@ export default function AdminDashboard() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
-                    {bins.filter(bin => bin.fillLevel >= 70).map((bin) => (
-                      <div key={bin.id} className="flex items-center justify-between p-3 bg-red-50 border border-red-200 rounded-lg">
+                    {bins.filter((bin: any) => bin.fillLevel >= 70).map((bin: any) => (
+                      <div key={bin.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-red-50 border border-red-200 rounded-lg gap-3">
                         <div className="flex items-center">
-                          <AlertTriangle className="w-5 h-5 text-red-500 mr-3" />
+                          <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 text-red-500 mr-2 sm:mr-3" />
                           <div>
-                            <p className="font-medium text-red-900">{bin.location}</p>
-                            <p className="text-sm text-red-700">{bin.fillLevel}% full - {bin.userName}</p>
+                            <p className="font-medium text-red-900 text-sm sm:text-base">{bin.location}</p>
+                            <p className="text-xs sm:text-sm text-red-700">{bin.fillLevel}% full - {bin.userName}</p>
                           </div>
                         </div>
                         <div className="flex items-center space-x-2">
@@ -240,6 +241,7 @@ export default function AdminDashboard() {
                             size="sm"
                             onClick={() => collectBinMutation.mutate(bin.id)}
                             disabled={collectBinMutation.isPending}
+                            className="text-xs sm:text-sm"
                           >
                             Collect
                           </Button>
@@ -252,21 +254,21 @@ export default function AdminDashboard() {
             )}
           </TabsContent>
 
-          <TabsContent value="bins" className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold text-gray-900">Bin Management</h2>
+          <TabsContent value="bins" className="space-y-4 sm:space-y-6">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Bin Management</h2>
               <div className="flex space-x-2">
-                <Button variant="outline" size="sm">
-                  <TrendingUp className="w-4 h-4 mr-2" />
+                <Button variant="outline" size="sm" className="text-xs sm:text-sm">
+                  <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
                   Optimize All
                 </Button>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {bins.map((bin) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              {bins.map((bin: any) => (
                 <Card key={bin.id} className="relative">
-                  <CardContent className="p-6">
+                  <CardContent className="p-4 sm:p-6">
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="text-lg font-semibold text-gray-900">
                         {bin.binType.charAt(0).toUpperCase() + bin.binType.slice(1)} #{bin.id}
@@ -295,14 +297,14 @@ export default function AdminDashboard() {
                       <p><strong>Last Updated:</strong> {formatDistanceToNow(new Date(bin.lastUpdated), { addSuffix: true })}</p>
                     </div>
 
-                    <div className="flex space-x-2">
+                    <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
                       <Button
                         size="sm"
                         onClick={() => collectBinMutation.mutate(bin.id)}
                         disabled={collectBinMutation.isPending}
-                        className="flex-1"
+                        className="flex-1 text-xs sm:text-sm"
                       >
-                        <CheckCircle className="w-4 h-4 mr-1" />
+                        <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
                         Collect
                       </Button>
                       <Button
@@ -310,16 +312,18 @@ export default function AdminDashboard() {
                         variant="outline"
                         onClick={() => optimizeBinMutation.mutate(bin.id)}
                         disabled={optimizeBinMutation.isPending}
+                        className="text-xs sm:text-sm"
                       >
-                        <Wrench className="w-4 h-4" />
+                        <Wrench className="w-3 h-3 sm:w-4 sm:h-4" />
                       </Button>
                       <Button
                         size="sm"
                         variant="destructive"
                         onClick={() => deleteBinMutation.mutate(bin.id)}
                         disabled={deleteBinMutation.isPending}
+                        className="text-xs sm:text-sm"
                       >
-                        <Trash2 className="w-4 h-4" />
+                        <Trash2 className="w-3 h-3 sm:w-4 sm:h-4" />
                       </Button>
                     </div>
                   </CardContent>
