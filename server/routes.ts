@@ -37,14 +37,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
         status: 'active',
       });
 
-      // Send confirmation email
+      // Send confirmation email to user
       await emailService.sendUserConfirmationEmail(user.email, user.name);
+
+      // Send admin notification
+      const adminEmailSetting = await storage.getSetting('adminEmail');
+      const adminEmail = adminEmailSetting?.value || 'thetownet@gmail.com';
+      await emailService.sendAdminRegistrationNotification(
+        adminEmail,
+        user.name,
+        user.email,
+        userData.address,
+        userData.binType
+      );
 
       res.status(201).json({
         success: true,
         message: "User registered successfully",
         userId: user.id,
         confirmationSent: true,
+        adminNotified: true,
       });
     } catch (error) {
       console.error("Registration error:", error);
@@ -214,6 +226,51 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error updating settings:", error);
       res.status(500).json({ message: "Failed to update settings" });
+    }
+  });
+
+  // Delete bin endpoint
+  app.delete("/api/bins/:id", async (req, res) => {
+    try {
+      const binId = parseInt(req.params.id);
+      const bin = await storage.getBinById(binId);
+      
+      if (!bin) {
+        return res.status(404).json({ message: "Bin not found" });
+      }
+
+      // In a real implementation, you would delete from database
+      // For now, we'll just mark it as inactive
+      await storage.updateBinStatus(binId, 'inactive');
+      
+      res.json({ success: true, message: "Bin deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting bin:", error);
+      res.status(500).json({ message: "Failed to delete bin" });
+    }
+  });
+
+  // Optimize bin endpoint
+  app.post("/api/bins/:id/optimize", async (req, res) => {
+    try {
+      const binId = parseInt(req.params.id);
+      const bin = await storage.getBinById(binId);
+      
+      if (!bin) {
+        return res.status(404).json({ message: "Bin not found" });
+      }
+
+      // Optimize bin (reset to optimal level and update settings)
+      await storage.updateBinFillLevel(binId, 25);
+      
+      res.json({ 
+        success: true, 
+        message: "Bin optimized successfully",
+        newFillLevel: 25
+      });
+    } catch (error) {
+      console.error("Error optimizing bin:", error);
+      res.status(500).json({ message: "Failed to optimize bin" });
     }
   });
 

@@ -11,6 +11,7 @@ export interface IStorage {
   getBinById(id: number): Promise<Bin | undefined>;
   getAllBins(): Promise<Bin[]>;
   updateBinFillLevel(id: number, fillLevel: number): Promise<Bin | undefined>;
+  updateBinStatus(id: number, status: string): Promise<Bin | undefined>;
   getBinsByUserId(userId: number): Promise<Bin[]>;
 
   // Alert operations
@@ -43,7 +44,7 @@ export class MemStorage implements IStorage {
 
   private initializeDefaultSettings() {
     const defaultSettings = [
-      { key: "alertThreshold", value: "70" },
+      { key: "alertThreshold", value: "75" },
       { key: "criticalThreshold", value: "85" },
       { key: "adminEmail", value: "thetownet@gmail.com" },
       { key: "updateInterval", value: "5" },
@@ -106,6 +107,19 @@ export class MemStorage implements IStorage {
     const updatedBin: Bin = {
       ...bin,
       fillLevel,
+      lastUpdated: new Date(),
+    };
+    this.bins.set(id, updatedBin);
+    return updatedBin;
+  }
+
+  async updateBinStatus(id: number, status: string): Promise<Bin | undefined> {
+    const bin = this.bins.get(id);
+    if (!bin) return undefined;
+
+    const updatedBin: Bin = {
+      ...bin,
+      status,
       lastUpdated: new Date(),
     };
     this.bins.set(id, updatedBin);

@@ -74,6 +74,65 @@ export class EmailService {
     }
   }
 
+  async sendAdminRegistrationNotification(adminEmail: string, userName: string, userEmail: string, address: string, binType: string): Promise<void> {
+    const mailOptions = {
+      from: process.env.SMTP_USER || process.env.EMAIL_USER || 'notifications@atosmartwastemanagement.com',
+      to: adminEmail,
+      subject: `🆕 New User Registration - ${userName}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <div style="background: linear-gradient(135deg, #1E88E5 0%, #43A047 100%); padding: 20px; text-align: center;">
+            <h1 style="color: white; margin: 0;">ATO Smart Waste Management</h1>
+            <p style="color: #E3F2FD; margin: 5px 0 0 0;">Admin Notification</p>
+          </div>
+          
+          <div style="padding: 30px; background: #f9f9f9;">
+            <h2 style="color: #37474F;">New User Registration</h2>
+            
+            <p style="color: #666; line-height: 1.6;">
+              A new user has successfully registered for waste management services.
+            </p>
+            
+            <div style="background: white; padding: 20px; border-radius: 8px; margin: 20px 0;">
+              <h3 style="color: #1E88E5; margin-top: 0;">User Details</h3>
+              <ul style="color: #666; line-height: 1.6;">
+                <li><strong>Name:</strong> ${userName}</li>
+                <li><strong>Email:</strong> ${userEmail}</li>
+                <li><strong>Service Address:</strong> ${address}</li>
+                <li><strong>Bin Type:</strong> ${binType.charAt(0).toUpperCase() + binType.slice(1)}</li>
+                <li><strong>Registration Time:</strong> ${new Date().toLocaleString()}</li>
+              </ul>
+            </div>
+            
+            <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin: 20px 0;">
+              <h4 style="color: #1976d2; margin-top: 0;">Next Steps Required</h4>
+              <ol style="color: #666; margin-bottom: 0;">
+                <li>Schedule bin installation within 3-5 business days</li>
+                <li>Assign collection route and team</li>
+                <li>Verify service address accessibility</li>
+                <li>Send installation confirmation to customer</li>
+              </ol>
+            </div>
+            
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd;">
+              <p style="color: #999; font-size: 12px; margin: 0;">
+                © 2024 ATO Smart Waste Management. Admin notification system.
+              </p>
+            </div>
+          </div>
+        </div>
+      `,
+    };
+
+    try {
+      await this.transporter.sendMail(mailOptions);
+      console.log(`Admin registration notification sent to ${adminEmail} for user ${userName}`);
+    } catch (error) {
+      console.error('Failed to send admin registration notification:', error);
+      throw new Error('Failed to send admin registration notification');
+    }
+  }
+
   async sendAdminAlert(adminEmail: string, binLocation: string, fillLevel: number): Promise<void> {
     const mailOptions = {
       from: process.env.SMTP_USER || process.env.EMAIL_USER || 'alerts@atosmartwastemanagement.com',

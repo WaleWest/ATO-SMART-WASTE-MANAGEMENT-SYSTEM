@@ -3,7 +3,7 @@ import { emailService } from './emailService';
 import cron from 'node-cron';
 
 export class BinService {
-  private alertThreshold = 70;
+  private alertThreshold = 75;
   private criticalThreshold = 85;
 
   constructor() {
