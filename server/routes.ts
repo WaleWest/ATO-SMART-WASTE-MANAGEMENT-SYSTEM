@@ -10,66 +10,116 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // User registration endpoint
   app.post("/api/users/register", async (req, res) => {
     try {
+      console.log("Registration request received:", req.body);
+
+      // Step 1: Validate input data
       const userData = insertUserSchema.parse(req.body);
-      
-      // Check if user already exists
+      console.log("Parsed userData:", userData);
+
+      // Step 2: Check if user already exists
+      console.log("Checking for existing user with email:", userData.email);
       const existingUser = await storage.getUserByEmail(userData.email);
       if (existingUser) {
+        console.log("User already exists:", existingUser.id);
         return res.status(409).json({ 
           success: false, 
           message: "User with this email already exists" 
         });
       }
 
-      // Create user
+      // Step 3: Create user
+      console.log("Creating new user...");
       const user = await storage.createUser(userData);
+      console.log("User created successfully:", user.id);
 
-      // Create bin for the user
+      // Step 4: Create bin for the user
       const binCapacity = userData.binType === 'residential' ? 240 : 
                          userData.binType === 'commercial' ? 660 : 1100;
-      
-      await storage.createBin({
+
+      console.log("Creating bin with capacity:", binCapacity);
+      const binData = {
         userId: user.id,
         location: userData.address,
         binType: userData.binType,
         capacity: binCapacity,
         fillLevel: Math.floor(Math.random() * 30) + 10, // Start with 10-40% fill
         status: 'active',
-      });
+      };
+      console.log("Bin data:", binData);
+
+      await storage.createBin(binData);
+      console.log("Bin created successfully");
+
+      // Step 5: Send emails (non-blocking)
+      let confirmationSent = false;
+      let adminNotified = false;
 
       // Send confirmation email to user
-      await emailService.sendUserConfirmationEmail(user.email, user.name);
+      console.log("Sending confirmation email to:", user.email);
+      try {
+        await emailService.sendUserConfirmationEmail(user.email, user.name);
+        console.log("User confirmation email sent");
+        confirmationSent = true;
+      } catch (emailError) {
+        console.error("Failed to send user confirmation email:", emailError);
+        // Continue with registration even if email fails
+      }
 
       // Send admin notification
-      const adminEmailSetting = await storage.getSetting('adminEmail');
-      const adminEmail = adminEmailSetting?.value || 'thetownet@gmail.com';
-      await emailService.sendAdminRegistrationNotification(
-        adminEmail,
-        user.name,
-        user.email,
-        userData.address,
-        userData.binType
-      );
+      try {
+        console.log("Getting admin email setting...");
+        const adminEmailSetting = await storage.getSetting('adminEmail');
+        const adminEmail = adminEmailSetting?.value || 'thetownet@gmail.com';
+        console.log("Admin email:", adminEmail);
 
+        await emailService.sendAdminRegistrationNotification(
+          adminEmail,
+          user.name,
+          user.email,
+          userData.address,
+          userData.binType
+        );
+        console.log("Admin notification email sent");
+        adminNotified = true;
+      } catch (adminEmailError) {
+        console.error("Failed to send admin notification email:", adminEmailError);
+        // Continue with registration even if admin email fails
+      }
+
+      console.log("Registration completed successfully");
       res.status(201).json({
         success: true,
         message: "User registered successfully",
         userId: user.id,
-        confirmationSent: true,
-        adminNotified: true,
+        confirmationSent: confirmationSent,
+        adminNotified: adminNotified,
       });
+
     } catch (error) {
       console.error("Registration error:", error);
+      console.error("Error stack:", error.stack);
+
       if (error instanceof z.ZodError) {
+        console.log("Validation error details:", error.errors);
         return res.status(400).json({
           success: false,
           message: "Invalid input data",
           errors: error.errors,
         });
       }
+
+      // More specific error handling
+      if (error.code === 'SQLITE_CONSTRAINT' || error.code === 'ER_DUP_ENTRY') {
+        return res.status(409).json({
+          success: false,
+          message: "User with this email already exists",
+        });
+      }
+
       res.status(500).json({
         success: false,
         message: "Registration failed",
+        error: process.env.NODE_ENV === 'development' ? error.message : undefined
       });
     }
   });
