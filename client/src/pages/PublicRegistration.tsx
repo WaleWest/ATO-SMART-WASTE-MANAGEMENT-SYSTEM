@@ -30,22 +30,49 @@ export default function PublicRegistration() {
 
   const registrationMutation = useMutation({
     mutationFn: async (userData: InsertUser) => {
-      const response = await apiRequest("POST", "/api/users/register", userData);
-      return response.json();
+      console.log('Sending registration data:', userData);
+      
+      try {
+        const response = await apiRequest("POST", "/api/users/register", userData);
+        console.log('API Response:', response);
+        
+        // Check if response is already parsed JSON or if it's a Response object
+        if (response && typeof response === 'object' && 'ok' in response) {
+          // It's a Response object, need to parse
+          if (!response.ok) {
+            const errorData = await response.json().catch(() => ({ message: 'Registration failed' }));
+            throw new Error(errorData.message || `HTTP ${response.status}: Registration failed`);
+          }
+          return await response.json();
+        } else {
+          // It's already parsed JSON, return as-is
+          return response;
+        }
+      } catch (error) {
+        console.error('Registration error:', error);
+        throw error;
+      }
     },
     onSuccess: (data) => {
+      console.log('Registration successful:', data);
       setShowSuccess(true);
-      form.reset();
+      
       toast({
         title: "Registration successful!",
         description: "Check your email for confirmation details.",
       });
+      
+      // Reset form after a short delay to ensure UI updates properly
+      setTimeout(() => {
+        form.reset();
+      }, 100);
       
       setTimeout(() => {
         setShowSuccess(false);
       }, 8000);
     },
     onError: (error: any) => {
+      console.error('Registration mutation error:', error);
       toast({
         title: "Registration failed",
         description: error.message || "Please try again or contact support.",
@@ -55,6 +82,7 @@ export default function PublicRegistration() {
   });
 
   const onSubmit = (data: InsertUser) => {
+    console.log('Form submitted with data:', data);
     registrationMutation.mutate(data);
   };
 

@@ -1,25 +1,32 @@
-import nodemailer from 'nodemailer';
+import nodemailer from "nodemailer";
 
 export class EmailService {
   private transporter: nodemailer.Transporter;
 
   constructor() {
     this.transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST || 'smtp.gmail.com',
-      port: parseInt(process.env.SMTP_PORT || '587'),
+      host: process.env.SMTP_HOST || "smtp.gmail.com",
+      port: parseInt(process.env.SMTP_PORT || "587"),
       secure: false,
       auth: {
-        user: process.env.SMTP_USER || process.env.EMAIL_USER,
-        pass: process.env.SMTP_PASS || process.env.EMAIL_PASS,
+        user: "thetownet@gmail.com",
+        pass: "zbuj fjeo dyxz agro",
       },
+      // auth: {
+      //   user: process.env.SMTP_USER,
+      //   pass: process.env.SMTP_PASS,
+      // },
     });
   }
 
-  async sendUserConfirmationEmail(userEmail: string, userName: string): Promise<void> {
+  async sendUserConfirmationEmail(
+    userEmail: string,
+    userName: string
+  ): Promise<void> {
     const mailOptions = {
-      from: process.env.SMTP_USER || process.env.EMAIL_USER || 'noreply@atosmartwastemanagement.com',
+      from: process.env.SMTP_USER || "noreply@atosmartwastemanagement.com",
       to: userEmail,
-      subject: 'Welcome to ATO Smart Waste Management - Registration Confirmed',
+      subject: "Welcome to ATO Smart Waste Management - Registration Confirmed",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <div style="background: linear-gradient(135deg, #1E88E5 0%, #43A047 100%); padding: 20px; text-align: center;">
@@ -57,7 +64,7 @@ export class EmailService {
             
             <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd;">
               <p style="color: #999; font-size: 12px; margin: 0;">
-                © 2024 ATO Smart Waste Management. All rights reserved.
+                © 2025 ATO Smart Waste Management. All rights reserved.
               </p>
             </div>
           </div>
@@ -69,14 +76,23 @@ export class EmailService {
       await this.transporter.sendMail(mailOptions);
       console.log(`Confirmation email sent to ${userEmail}`);
     } catch (error) {
-      console.error('Failed to send confirmation email:', error);
-      throw new Error('Failed to send confirmation email');
+      console.error("Failed to send confirmation email:", error);
+      throw new Error("Failed to send confirmation email");
     }
   }
 
-  async sendAdminRegistrationNotification(adminEmail: string, userName: string, userEmail: string, address: string, binType: string): Promise<void> {
+  async sendAdminRegistrationNotification(
+    adminEmail: string,
+    userName: string,
+    userEmail: string,
+    address: string,
+    binType: string
+  ): Promise<void> {
     const mailOptions = {
-      from: process.env.SMTP_USER || process.env.EMAIL_USER || 'notifications@atosmartwastemanagement.com',
+      from:
+        process.env.SMTP_USER ||
+        process.env.EMAIL_USER ||
+        "notifications@atosmartwastemanagement.com",
       to: adminEmail,
       subject: `🆕 New User Registration - ${userName}`,
       html: `
@@ -99,7 +115,9 @@ export class EmailService {
                 <li><strong>Name:</strong> ${userName}</li>
                 <li><strong>Email:</strong> ${userEmail}</li>
                 <li><strong>Service Address:</strong> ${address}</li>
-                <li><strong>Bin Type:</strong> ${binType.charAt(0).toUpperCase() + binType.slice(1)}</li>
+                <li><strong>Bin Type:</strong> ${
+                  binType.charAt(0).toUpperCase() + binType.slice(1)
+                }</li>
                 <li><strong>Registration Time:</strong> ${new Date().toLocaleString()}</li>
               </ul>
             </div>
@@ -116,7 +134,7 @@ export class EmailService {
             
             <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd;">
               <p style="color: #999; font-size: 12px; margin: 0;">
-                © 2024 ATO Smart Waste Management. Admin notification system.
+                © 2025 ATO Smart Waste Management. Admin notification system.
               </p>
             </div>
           </div>
@@ -126,16 +144,25 @@ export class EmailService {
 
     try {
       await this.transporter.sendMail(mailOptions);
-      console.log(`Admin registration notification sent to ${adminEmail} for user ${userName}`);
+      console.log(
+        `Admin registration notification sent to ${adminEmail} for user ${userName}`
+      );
     } catch (error) {
-      console.error('Failed to send admin registration notification:', error);
-      throw new Error('Failed to send admin registration notification');
+      console.error("Failed to send admin registration notification:", error);
+      throw new Error("Failed to send admin registration notification");
     }
   }
 
-  async sendAdminAlert(adminEmail: string, binLocation: string, fillLevel: number): Promise<void> {
+  async sendAdminAlert(
+    adminEmail: string,
+    binLocation: string,
+    fillLevel: number
+  ): Promise<void> {
     const mailOptions = {
-      from: process.env.SMTP_USER || process.env.EMAIL_USER || 'alerts@atosmartwastemanagement.com',
+      from:
+        process.env.SMTP_USER ||
+        process.env.EMAIL_USER ||
+        "alerts@atosmartwastemanagement.com",
       to: adminEmail,
       subject: `🚨 Collection Alert: Bin at ${binLocation} needs attention`,
       html: `
@@ -185,10 +212,12 @@ export class EmailService {
 
     try {
       await this.transporter.sendMail(mailOptions);
-      console.log(`Admin alert sent to ${adminEmail} for bin at ${binLocation}`);
+      console.log(
+        `Admin alert sent to ${adminEmail} for bin at ${binLocation}`
+      );
     } catch (error) {
-      console.error('Failed to send admin alert:', error);
-      throw new Error('Failed to send admin alert');
+      console.error("Failed to send admin alert:", error);
+      throw new Error("Failed to send admin alert");
     }
   }
 }
